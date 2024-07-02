@@ -109,18 +109,17 @@ const App: React.FC = () => {
           name="file"
           multiple={false}
           maxCount={1}
-          // beforeUpload={(file) => {
-          //   const restList = getExcelNameList()
-          //   const isExcel = ['xls', 'xlsx', 'csv', ...restList].some(type => file.name.includes(type))
-          //   if (!isExcel) {
-          //     message.error(`${file.name} is not a excel file`);
-          //   }
-          //   return isExcel || Upload.LIST_IGNORE;
-          // }}
+          beforeUpload={(file) => {
+            const restList = getExcelNameList()
+            const isExcel = ['xls', 'xlsx', 'csv', ...restList].some(type => file.name.includes(type))
+            if (!isExcel) {
+              message.error(`${file.name} is not a excel file`);
+            }
+            return isExcel || Upload.LIST_IGNORE;
+          }}
 
           onChange={(info) => {
             const { status } = info.file;
-            console.log(status, 'statusstatus');
 
             if (status === 'removed') {
               setExcelList([])
