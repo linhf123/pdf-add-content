@@ -10,7 +10,6 @@ const { Dragger } = Upload;
 
 async function handleReadableStreamAsPDF(readableStream, filename) {
   // 将ReadableStream转换为Blob
-  console.log(readableStream, 'fsdfsdf');
   const blob = await new Response(readableStream).blob();
 
   // 创建一个URL表示这个Blob对象
