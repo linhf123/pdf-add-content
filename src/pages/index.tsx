@@ -51,19 +51,14 @@ const App: React.FC = () => {
     maxCount: 1,
     multiple: false,
     accept: ".pdf",
-    beforeUpload: () => {
-      return false;
-    },
+    beforeUpload: () => false,
     onChange(info) {
       const { status } = info.file;
       if (status === "removed") {
         setPdf(null);
-      }
-      if (status === "done") {
-        setPdf(info.file.originFileObj);
+      } else if (!!info.file) {
+        setPdf(info.file);
         message.success(`${info.file.name} file uploaded successfully.`);
-      } else if (status === "error") {
-        message.error(`${info.file.name} file upload failed.`);
       }
     },
     onDrop(e) {
@@ -86,6 +81,7 @@ const App: React.FC = () => {
       const data = e.target.result;
       processData(data);
     };
+
     reader.readAsArrayBuffer(file);
   }
   const getExcelNameList = () => window.excelNameList || [];
@@ -134,7 +130,6 @@ const App: React.FC = () => {
             if (!isExcel) {
               message.error(`${file.name} is not a excel file`);
             }
-            // false 不触发自动请求
             return isExcel ? false : Upload.LIST_IGNORE;
           }}
           onChange={(info) => {
@@ -142,12 +137,9 @@ const App: React.FC = () => {
 
             if (status === "removed") {
               setExcelList([]);
-            }
-            if (status === "done") {
-              readFile(info.file.originFileObj);
+            } else if (!!info.file) {
+              readFile(info.file);
               message.success(`${info.file.name} file uploaded successfully.`);
-            } else if (status === "error") {
-              message.error(`${info.file.name} file upload failed.`);
             }
           }}
           onDrop={(e) => {
